@@ -2,29 +2,48 @@
 
 using namespace Charps;
 
-Window::Window(int width, int height, string title) {
-	this->_size = Vector2<int>(width, height);
+/*
+TODO: don't do using namespace
+*/
+
+Window::Window(unsigned int width, unsigned int height, std::string title) : input(Input(*this)) {
+	this->_size = Vector2<unsigned int>(width, height);
 	this->_title = title;
+	this->_pos = Vector2<unsigned int>();
 }
 
 void Window::init() {
-	if (!glfwInit()) throw exception("Unable to initialize GLFW");
+	if (!glfwInit()) throw std::exception("Unable to initialize GLFW");
 
 	windowGLFW = glfwCreateWindow(640, 480, "Hello World", 0, 0);
 	if (windowGLFW == 0) {
 		glfwTerminate();
-		throw new exception("Failed to create GLFW window");
+		throw new std::exception("Failed to create GLFW window");
 	}
 
+	glfwSetWindowUserPointer(windowGLFW, (Window*) this);
+
 	const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	if (videoMode == 0) throw new exception("Failed to get video mode");
+	if (videoMode == 0) throw new std::exception("Failed to get video mode");
 	_pos.x = (videoMode->width - _size.x) / 2;
 	_pos.y = (videoMode->height - _size.y) / 2;
 	glfwSetWindowPos(windowGLFW, _pos.x, _pos.y);
 	glfwMakeContextCurrent(windowGLFW);
 	
-	//createCapabilities(); //Adds the ability to render to the window in
+	//createCapabilities(); //Adds the ability to render to the window
 	glEnable(GL_DEPTH_TEST);
+
+	int hKeys[] = {
+		GLFW_KEY_A, GLFW_KEY_D,
+		GLFW_KEY_LEFT, GLFW_KEY_RIGHT
+	};
+	input.addAxis(Input::Axis("horizontal", hKeys, sizeof(hKeys)));
+
+	int vKeys[] = {
+		GLFW_KEY_S, GLFW_KEY_W,
+		GLFW_KEY_DOWN, GLFW_KEY_UP
+	};
+	input.addAxis(Input::Axis("vertical", vKeys, sizeof(vKeys)));
 
 	/*sizeCallback = GLFWWindowSizeCallback() {
 			public void invoke(long window, int w, int h) {
@@ -32,12 +51,7 @@ void Window::init() {
 				HEIGHT = h;
 				isResized = true;
 			}
-	};
-	GLFW.glfwSetKeyCallback(window, input.getKeyboardCallback());
-	GLFW.glfwSetCursorPosCallback(window, input.getMouseMoveCallback());
-	GLFW.glfwSetMouseButtonCallback(window, input.getMouseButtonsCallback());
-	GLFW.glfwSetScrollCallback(window, input.getScrollCallback());
-	GLFW.glfwSetWindowSizeCallback(window, sizeCallback);*/
+	};*/
 
 	glfwShowWindow(windowGLFW);
 	glfwSwapInterval(1);
@@ -54,26 +68,27 @@ void Window::render() {
 	glfwSwapBuffers(windowGLFW);
 }
 
-void Window::setSize(Vector2<int> v) {
+void Window::setSize(const Vector2<unsigned int>& v) {
 	_size = v;
 	glViewport(_pos.x, _pos.y, v.x, v.y);
 }
 
-Vector2<int> Window::getSize() {
+Vector2<unsigned int> Window::getSize() {
 	return _size;
 }
 
-void Window::setPosition(Vector2<int> v) {
+void Window::setPosition(const Vector2<unsigned int>& v) {
 	_pos = v;
 	glViewport(v.x, v.y, _size.x, _size.y);
 }
-Vector2<int> Window::getPosition() {
+Vector2<unsigned int> Window::getPosition() {
 	return _pos;
 }
 
-void Window::setTitle(string v) {
+void Window::setTitle(std::string v) {
 	_title = v;
 }
-string Window::getTitle() {
+std::string Window::getTitle() {
 	return _title;
 }
+

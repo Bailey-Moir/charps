@@ -1,22 +1,25 @@
 #pragma once
 #include "vector2.h"
+#include "input.h"
+#include <vector>
 #include <iostream>
 #include <GLFW/glfw3.h>
 
-using namespace std;
-
 namespace Charps {
+	/**
+	 * Manages the game window itself.
+	 */
 	class Window {
 	private:
 		/**
 		 * The private variable that is referenced by the getter and setter.
 		 */
-		Vector2<int> _size = Vector2<int>(), _pos = Vector2<int>();
+		Vector2<unsigned int> _size, _pos;
 		
 		/**
 		 * The private variable that is referenced by the getter and setter.
 		 */
-		string _title;
+		std::string _title;
 	public:
 		/**
 		 * The constructor for the window.
@@ -24,7 +27,12 @@ namespace Charps {
 		 * @param height The height of the new window.
 		 * @param title The title of the window.
 		 */
-		Window(int width, int height, string title);
+		Window(unsigned int width, unsigned int height, std::string title);
+
+		/**
+		 * The input manager of the window.
+		 */
+		Input input;
 
 		/**
 		 * Initializes (in a non-literal sense) the window.
@@ -55,28 +63,28 @@ namespace Charps {
 		/**
 		 * Window size setter.
 		 */
-		void setSize(Vector2<int> v);
+		void setSize(const Vector2<unsigned int>& v);
 		/**
 		 * Window size getter.
 		 */
-		Vector2<int> getSize();
+		Vector2<unsigned int> getSize();
 
 		/**
 		 * Window position setter.
 		 */
-		void setPosition(Vector2<int> v);
+		void setPosition(const Vector2<unsigned int>& v);
 		/**
 		 * Window position getter.
 		 */
-		Vector2<int> getPosition();
+		Vector2<unsigned int> getPosition();
 
 		/**
 		 * Window title setter.
 		 */
-		void setTitle(string v);
+		void setTitle(std::string v);
 		/**
 		 * Window title getter.
 		 */
-		string getTitle();
+		std::string getTitle();
 	};
 }
