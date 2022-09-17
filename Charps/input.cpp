@@ -3,7 +3,7 @@
 
 using namespace Charps;
 
-Input::Axis::Axis(std::string name, int* keys, size_t count) {
+Input::Axis::Axis(const char* name, int* keys, size_t count) {
 	this->keys = std::vector<int>(keys, keys + count);
 	this->name = name;
 
@@ -23,20 +23,10 @@ int Input::Axis::getValue(Input& input) {
 Input::Input(Window& window) : window(window) {};
 
 bool Input::keyDown(int key) {
-	int val = glfwGetKey(window.windowGLFW, key);
-	return val == 1 || val == 2;
-}
-
-bool Input::keyPressed(int key) {
-	return glfwGetKey(window.windowGLFW, key) == 1;
+	return glfwGetKey(window.windowGLFW, key) == 2;
 }
 
 bool Input::buttonDown(int button) {
-	int val = glfwGetMouseButton(window.windowGLFW, button);
-	return val == 2 || val == 1;
-}
-
-bool Input::buttonPressed(int button) {
 	return glfwGetMouseButton(window.windowGLFW, button) == 1;
 }
 

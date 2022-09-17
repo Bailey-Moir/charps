@@ -19,11 +19,6 @@ namespace Charps {
 		static double deltaTime;
 
 		/**
-		 * Get the current time in seconds.
-		 */
-		static double getTime();
-
-		/**
 		 * Updates the delta time variable. To be run every frame.
 		 */
 		static void update();

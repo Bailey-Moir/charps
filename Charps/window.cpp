@@ -1,24 +1,36 @@
 #include "window.h"
+#include "texturemodel.h"
+#include "input.h"
 
 using namespace Charps;
 
-/*
-TODO: don't do using namespace
-*/
-
-Window::Window(unsigned int width, unsigned int height, std::string title) : input(Input(*this)) {
+Window::Window(const unsigned int width, const unsigned int height, const std::string title) : input(Input(*this)) {
 	this->_size = Vector2<unsigned int>(width, height);
 	this->_title = title;
 	this->_pos = Vector2<unsigned int>();
 }
 
 void Window::init() {
-	if (!glfwInit()) throw std::exception("Unable to initialize GLFW");
+	if (!glfwInit()) exit(EXIT_FAILURE);
 
-	windowGLFW = glfwCreateWindow(640, 480, "Hello World", 0, 0);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+	windowGLFW = glfwCreateWindow(640, 480, _title.c_str(), 0, 0);
 	if (windowGLFW == 0) {
 		glfwTerminate();
-		throw new std::exception("Failed to create GLFW window");
+		exit(EXIT_FAILURE);
+	}
+	glfwMakeContextCurrent(windowGLFW);
+
+	glfwSetErrorCallback([](int code, const char* description) {
+		std::cout << "ERROR(" << code << "): " << description << ".";
+	});
+
+	GLint err = glewInit();
+	if (err != 0) {
+		printf("ERROR: %s", glewGetErrorString(err));
+		throw std::exception("Unable to initialize GLEW");
 	}
 
 	glfwSetWindowUserPointer(windowGLFW, (Window*) this);
@@ -45,13 +57,7 @@ void Window::init() {
 	};
 	input.addAxis(Input::Axis("vertical", vKeys, sizeof(vKeys)));
 
-	/*sizeCallback = GLFWWindowSizeCallback() {
-			public void invoke(long window, int w, int h) {
-				WIDTH = w;
-				HEIGHT = h;
-				isResized = true;
-			}
-	};*/
+	// insert size callback
 
 	glfwShowWindow(windowGLFW);
 	glfwSwapInterval(1);
@@ -65,14 +71,34 @@ void Window::render() {
 	//Clears the screen and sets the background color
 	glClearColor(color[0], color[1], color[2], 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Or bit
+	
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+
 	glfwSwapBuffers(windowGLFW);
+}
+
+void Window::renderModel(const TexturedModel& texturedModel) {
+	glBindVertexArray(texturedModel.vaoID);
+	glEnableVertexAttribArray(0);
+	glEnableVertexAttribArray(1);
+	glEnableVertexAttribArray(2);
+
+	glActiveTexture(GL_TEXTURE0); //What texture bank.
+	glBindTexture(GL_TEXTURE_2D, texturedModel.textureID);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glDrawElements(GL_TRIANGLES, texturedModel.vertexCount, GL_UNSIGNED_INT, 0);
+
+	glDisableVertexAttribArray(0);
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(2);
+	glBindVertexArray(0);
 }
 
 void Window::setSize(const Vector2<unsigned int>& v) {
 	_size = v;
 	glViewport(_pos.x, _pos.y, v.x, v.y);
 }
-
 Vector2<unsigned int> Window::getSize() {
 	return _size;
 }
@@ -85,7 +111,7 @@ Vector2<unsigned int> Window::getPosition() {
 	return _pos;
 }
 
-void Window::setTitle(std::string v) {
+void Window::setTitle(const std::string v) {
 	_title = v;
 }
 std::string Window::getTitle() {

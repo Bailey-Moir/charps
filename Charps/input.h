@@ -1,13 +1,13 @@
 #pragma once
 #include <string>
 #include <vector>
-#include <GLFW/glfw3.h>
-#include "vector2.h"
+#include "GLFW.h"
+#include "vector2.hpp"
 
 namespace Charps {
 	// Forward declration
 	class Window;
-	
+
 	/**
 	 * Manages all input, e.g. mouse and keyboard usage.
 	 */
@@ -16,20 +16,19 @@ namespace Charps {
 		/**
 		 * An input axis.
 		 */
-		class Axis {
-		public:
+		struct Axis {
 			/**
 			 * Constructor
 			 * @param name The name of the axis, e.g. 'horizontal'
 			 * @param keys An array of all the keys that affect the axis. The items in this array should come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 * @param count The size of the previous array.
 			 */
-			Axis(std::string name, int* keys, size_t count);
+			Axis(const char* name, int* keys, const size_t count);
 
 			/**
 			 * The name of the axis.
 			 */
-			std::string name;
+			const char* name;
 			/**
 			 * An array of all the keys that affect the axis. The items in this array come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 */
@@ -56,7 +55,7 @@ namespace Charps {
 		/**
 		 * The parent window.
 		 */
-		Window& window;
+		const Window& window;
 
 	public:
 		/**
@@ -71,20 +70,10 @@ namespace Charps {
 		 */
 		bool keyDown(int key);
 		/**
-		 * @param key The key to check against.
-		 * @return Whether the given key was just pressed.
-		 */
-		bool keyPressed(int key);
-		/**
 		 * @param button The button to check against.
 		 * @return Whether the given button is currently down.
 		 */
 		bool buttonDown(int button);
-		/**
-		 * @param button The button to check against.
-		 * @return Whether the given button was just pressed.
-		 */
-		bool buttonPressed(int button);
 		/**
 		 * @return The current position of the mouse.
 		 */

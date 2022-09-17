@@ -1,11 +1,13 @@
 #pragma once
-#include "vector2.h"
-#include "input.h"
+#include "vector2.hpp"
 #include <vector>
 #include <iostream>
-#include <GLFW/glfw3.h>
+#include "GLFW.h"
+#include "input.h"
 
 namespace Charps {
+	class TexturedModel;
+
 	/**
 	 * Manages the game window itself.
 	 */
@@ -27,7 +29,7 @@ namespace Charps {
 		 * @param height The height of the new window.
 		 * @param title The title of the window.
 		 */
-		Window(unsigned int width, unsigned int height, std::string title);
+		Window(const unsigned int width, const unsigned int height, std::string title);
 
 		/**
 		 * The input manager of the window.
@@ -48,6 +50,8 @@ namespace Charps {
 		 */
 		void render();
 
+		void renderModel(const TexturedModel& texturedModel);
+
 		/**
 		 * The GLFW window struct.
 		 */
@@ -56,7 +60,7 @@ namespace Charps {
 		/**
 		 * The colour of the window.
 		 */
-		float color[3] = {1, 0, 0};
+		float color[3] = {0, 0, 0};
 
 		// GETTERS AND SETTERS
 
@@ -81,7 +85,7 @@ namespace Charps {
 		/**
 		 * Window title setter.
 		 */
-		void setTitle(std::string v);
+		void setTitle(const std::string v);
 		/**
 		 * Window title getter.
 		 */

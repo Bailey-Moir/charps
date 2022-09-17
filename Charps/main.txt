@@ -1,0 +1,33 @@
+#include "GLFW.h"
+#include "vector3.hpp"
+#include "window.h"
+#include "shader.h"
+#include <vector>
+#include "gameobject.h"
+#include "spriterenderer.h"
+
+using namespace Charps;
+
+int main(void)
+{
+    Window window(100, 100, "test");
+    window.init();
+
+    Shader shader = Shader("mainFragment.glsl", "mainVertex.glsl");
+
+    GameObject object(window);
+    
+    while (!glfwWindowShouldClose(window.windowGLFW)) {
+        // UPDATE
+        window.update();
+
+        // RENDER
+        window.render();
+
+
+    }
+
+    glfwTerminate();
+    exit(EXIT_SUCCESS);
+    return 0;
+}
