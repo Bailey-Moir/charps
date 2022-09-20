@@ -14,5 +14,7 @@ namespace Charps {
 		Transform(GameObject& gameObject);
 
 		Vector2<double> position, size/*, rotation*/;
+
+		void update();
 	};
 }

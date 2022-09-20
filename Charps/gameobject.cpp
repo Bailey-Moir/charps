@@ -5,6 +5,6 @@ using namespace Charps;
 
 GameObject::GameObject(Window& window) : transform(*this), window(window) {}
 
-void GameObject::addComponent(void* component) {
+void GameObject::addComponent(Component* component) {
 	components.push_back(component);
 }

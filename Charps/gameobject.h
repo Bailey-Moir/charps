@@ -1,6 +1,7 @@
 #pragma once
 #include "component.h"
 #include "transform.h"
+#include <typeinfo>
 #include <vector>
 
 namespace Charps {
@@ -14,7 +15,7 @@ namespace Charps {
 		/**
 		 * All the components on the Game Object
 		 */
-		std::vector<void*> components = std::vector<void*>();
+		std::vector<Component*> components = std::vector<Component*>();
 
 	public:
 		/**
@@ -43,14 +44,16 @@ namespace Charps {
 		 * Attempts to add a component to the Game Object.
 		 * 
 		 */
-		void addComponent(void* component);
+		void addComponent(Component* component);
 	};
 
 	template<typename T>
 	T* GameObject::getComponent() {
-		/**
-		 * Define this. 
-		 */
-		return nullptr;
+		for (int i = 0; i < components.size(); i++) {
+			// if is never true
+			if (typeid(T) == components[i]->id) {
+				return dynamic_cast<T*>(components[i]);
+			}
+		}
 	}
 }

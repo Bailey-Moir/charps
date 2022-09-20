@@ -1,4 +1,5 @@
 #pragma once
+#include <typeinfo>
 
 namespace Charps {
 	class GameObject;
@@ -9,16 +10,15 @@ namespace Charps {
 		 * Constructor.
 		 * @param gameObject The parent Game Object.
 		 */
-		Component(GameObject& gameObject);
+		Component(GameObject& gameObject, const std::type_info& id);
 
 		/**
 		 * The parent Game Object.
 		 */
 		GameObject& gameObject;
 
-		/**
-		 * The abstracted class of Component, e.g. Transform.
-		 */
-		void* targetClass;		
+		virtual void update();
+
+		const std::type_info& id;
 	};
 }

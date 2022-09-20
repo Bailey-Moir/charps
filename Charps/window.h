@@ -22,6 +22,11 @@ namespace Charps {
 		 * The private variable that is referenced by the getter and setter.
 		 */
 		std::string _title;
+
+		/**
+		 * Updates the size and the position according to _size and _pos.
+		 */
+		inline void updateTransformation();
 	public:
 		/**
 		 * The constructor for the window.
@@ -50,6 +55,9 @@ namespace Charps {
 		 */
 		void render();
 
+		/**
+		 * Renders a model to the screen.
+		 */
 		void renderModel(const TexturedModel& texturedModel);
 
 		/**
@@ -69,6 +77,10 @@ namespace Charps {
 		 */
 		void setSize(const Vector2<unsigned int>& v);
 		/**
+		 * Window size setter.
+		 */
+		void setSize(unsigned int x, unsigned int y);
+		/**
 		 * Window size getter.
 		 */
 		Vector2<unsigned int> getSize();
@@ -77,6 +89,10 @@ namespace Charps {
 		 * Window position setter.
 		 */
 		void setPosition(const Vector2<unsigned int>& v);
+		/**
+		 * Window position setter.
+		 */
+		void setPosition(unsigned int x, unsigned int y);
 		/**
 		 * Window position getter.
 		 */

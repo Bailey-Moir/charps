@@ -10,15 +10,15 @@ namespace Charps {
 		/**
 		 * The shader's GL program ID.
 		 */
-		const unsigned int id;
+		unsigned int id;
 		/**
 		 * The vertex shader's GL program ID.
 		 */
-		const unsigned int vertexID;
+		unsigned int vertexID;
 		/**
 		 * The fragment shader's GL program ID.
 		 */
-		const unsigned int fragmentID;
+		unsigned int fragmentID;
 
 	public:
 		/**
@@ -35,29 +35,31 @@ namespace Charps {
 		/**
 		 * Starts using the shader.
 		 */
-		void start();
+		void start() const;
 		/**
 		 * Stops using the shader.
 		 */
-		void stop();
+		void stop() const;
 
-		const int getID();
+		const int getID() const;
 	protected:
 		/**
 		 * Binds all shader layout attributes used in the vertex shader.
 		 */
-		void bindAttributes();
+		void bindAttributes() const;
 	private:
 		/**
 		 * Binds a shader layout attribute.
 		 */
-		void bindAttribute(int attrib, const char* name);
+		void bindAttribute(int attrib, const char* name) const;
 		/**
 		 * Creates a shader from a file.
 		 * @param file The location of the shader file.
 		 * @param type The type of shader, e.g. GL_FRAGMENT_SHADER.
 		 * @return the GL ID of the shader.
 		 */
-		unsigned int loadShader(std::string file, unsigned int type);
+		unsigned int loadShader(std::string file, unsigned int type) const;
 	};
+
+	const Shader defaultShader = Shader("mainVertex.glsl", "mainFragment.glsl");
 }

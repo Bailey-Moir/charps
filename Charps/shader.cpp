@@ -22,27 +22,27 @@ Shader::~Shader() {
     glDeleteProgram(id);
 }
 
-void Shader::start() {
+void Shader::start() const {
     glUseProgram(id);
 }
 
-void Shader::stop() {
+void Shader::stop() const {
     glUseProgram(0);
 }
 
-const int Shader::getID() {
+const int Shader::getID() const {
 	return id;
 }
 
-void Shader::bindAttributes() {
+void Shader::bindAttributes() const {
     bindAttribute(0, "position");
 }
 
-void Shader::bindAttribute(int attrib, const char* name) {
+void Shader::bindAttribute(int attrib, const char* name) const {
     glBindAttribLocation(id, attrib, name);
 }
 
-unsigned int Shader::loadShader(std::string file, unsigned int type) {
+unsigned int Shader::loadShader(std::string file, unsigned int type) const {
     int shaderID = glCreateShader(type);
 
     std::string shaderStr = FileUtils::readFile(file.c_str());

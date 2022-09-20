@@ -3,7 +3,8 @@
 
 using namespace Charps;
 
-Component::Component(GameObject& gameObject) : gameObject(gameObject) {
+Component::Component(GameObject& gameObject, const std::type_info& id) : gameObject(gameObject), id(id) {
 	gameObject.addComponent(this);
-	targetClass = this;
 }
+
+void Component::update() {}

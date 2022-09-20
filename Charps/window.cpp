@@ -23,17 +23,11 @@ void Window::init() {
 	}
 	glfwMakeContextCurrent(windowGLFW);
 
-	glfwSetErrorCallback([](int code, const char* description) {
-		std::cout << "ERROR(" << code << "): " << description << ".";
-	});
-
 	GLint err = glewInit();
 	if (err != 0) {
 		printf("ERROR: %s", glewGetErrorString(err));
 		throw std::exception("Unable to initialize GLEW");
 	}
-
-	glfwSetWindowUserPointer(windowGLFW, (Window*) this);
 
 	const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 	if (videoMode == 0) throw new std::exception("Failed to get video mode");
@@ -44,6 +38,21 @@ void Window::init() {
 	
 	//createCapabilities(); //Adds the ability to render to the window
 	glEnable(GL_DEPTH_TEST);
+	
+	//glfwSetWindowUserPointer(windowGLFW, this);
+
+	glfwSetErrorCallback([](int code, const char* description) { std::cout << "ERROR(" << code << "): " << description << "."; });
+	glfwSetWindowSizeCallback(windowGLFW, [](GLFWwindow* window, int width, int height) {
+		int xpos, ypos;
+		glfwGetWindowPos(window, &xpos, &ypos);
+		std::cout << xpos << " " << ypos << " " << width << " " << height << std::endl;
+		glViewport(xpos, ypos, width, height);
+	});
+	glfwSetWindowPosCallback(windowGLFW, [](GLFWwindow* window, int xpos, int ypos) {
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+		glViewport(xpos, ypos, width, height);
+	});
 
 	int hKeys[] = {
 		GLFW_KEY_A, GLFW_KEY_D,
@@ -57,8 +66,6 @@ void Window::init() {
 	};
 	input.addAxis(Input::Axis("vertical", vKeys, sizeof(vKeys)));
 
-	// insert size callback
-
 	glfwShowWindow(windowGLFW);
 	glfwSwapInterval(1);
 }
@@ -68,13 +75,8 @@ void Window::update() {
 }
 
 void Window::render() {
-	//Clears the screen and sets the background color
 	glClearColor(color[0], color[1], color[2], 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Or bit
-	
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-	glfwSwapBuffers(windowGLFW);
 }
 
 void Window::renderModel(const TexturedModel& texturedModel) {
@@ -97,7 +99,12 @@ void Window::renderModel(const TexturedModel& texturedModel) {
 
 void Window::setSize(const Vector2<unsigned int>& v) {
 	_size = v;
-	glViewport(_pos.x, _pos.y, v.x, v.y);
+	updateTransformation();
+}
+void Window::setSize(unsigned int x, unsigned int y) {
+	_size.x = x;
+	_size.y = y;
+	updateTransformation();
 }
 Vector2<unsigned int> Window::getSize() {
 	return _size;
@@ -105,7 +112,12 @@ Vector2<unsigned int> Window::getSize() {
 
 void Window::setPosition(const Vector2<unsigned int>& v) {
 	_pos = v;
-	glViewport(v.x, v.y, _size.x, _size.y);
+	updateTransformation();
+}
+void Window::setPosition(unsigned int x, unsigned int y) {
+	_pos.x = x;
+	_pos.y = y;
+	updateTransformation();
 }
 Vector2<unsigned int> Window::getPosition() {
 	return _pos;
@@ -118,3 +130,6 @@ std::string Window::getTitle() {
 	return _title;
 }
 
+inline void Window::updateTransformation() {
+	glViewport(_pos.x, _pos.y, _size.x, _size.y);
+}

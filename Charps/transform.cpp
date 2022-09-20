@@ -2,4 +2,8 @@
 
 using namespace Charps;
 
-Charps::Transform::Transform(GameObject& gameObject) : Component(gameObject) {}
+Transform::Transform(GameObject& gameObject) : Component(gameObject, typeid(Transform)) {}
+
+void Transform::update() {
+
+}
