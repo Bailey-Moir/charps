@@ -15,6 +15,11 @@ namespace Charps {
 		 */
 		Vector3(const T& x, const T& y, const T& z);
 		/**
+		 * Constructor where dimensions are all equal to the one input.
+		 * @param n The initial value of the dimensions.
+		 */
+		Vector3(const T& n);
+		/**
 		 * Default constructor;
 		 */
 		Vector3();
@@ -49,6 +54,13 @@ namespace Charps {
 		this->x = x;
 		this->y = y;
 		this->z = z;
+	}
+
+	template<typename T>
+	Vector3<T>::Vector3(const T& n) {
+		this->x = n;
+		this->y = n;
+		this->z = n;
 	}
 
 	template<typename T>

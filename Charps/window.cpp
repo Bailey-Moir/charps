@@ -1,6 +1,6 @@
 #include "window.h"
-#include "texturemodel.h"
 #include "input.h"
+#include "spriterenderer.h"
 
 using namespace Charps;
 
@@ -8,9 +8,7 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 	this->_size = Vector2<unsigned int>(width, height);
 	this->_title = title;
 	this->_pos = Vector2<unsigned int>();
-}
 
-void Window::init() {
 	if (!glfwInit()) exit(EXIT_FAILURE);
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
@@ -22,6 +20,7 @@ void Window::init() {
 		exit(EXIT_FAILURE);
 	}
 	glfwMakeContextCurrent(windowGLFW);
+	monitor = glfwGetPrimaryMonitor();
 
 	GLint err = glewInit();
 	if (err != 0) {
@@ -29,42 +28,32 @@ void Window::init() {
 		throw std::exception("Unable to initialize GLEW");
 	}
 
-	const GLFWvidmode* videoMode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+	const GLFWvidmode* videoMode = glfwGetVideoMode(monitor);
 	if (videoMode == 0) throw new std::exception("Failed to get video mode");
 	_pos.x = (videoMode->width - _size.x) / 2;
 	_pos.y = (videoMode->height - _size.y) / 2;
 	glfwSetWindowPos(windowGLFW, _pos.x, _pos.y);
 	glfwMakeContextCurrent(windowGLFW);
-	
+
 	//createCapabilities(); //Adds the ability to render to the window
 	glEnable(GL_DEPTH_TEST);
-	
+
 	//glfwSetWindowUserPointer(windowGLFW, this);
 
-	glfwSetErrorCallback([](int code, const char* description) { std::cout << "ERROR(" << code << "): " << description << "."; });
-	glfwSetWindowSizeCallback(windowGLFW, [](GLFWwindow* window, int width, int height) {
-		int xpos, ypos;
-		glfwGetWindowPos(window, &xpos, &ypos);
-		std::cout << xpos << " " << ypos << " " << width << " " << height << std::endl;
-		glViewport(xpos, ypos, width, height);
-	});
-	glfwSetWindowPosCallback(windowGLFW, [](GLFWwindow* window, int xpos, int ypos) {
-		int width, height;
-		glfwGetWindowSize(window, &width, &height);
-		glViewport(xpos, ypos, width, height);
-	});
+	glfwSetErrorCallback([](int code, const char* description) { std::cout << "ERROR(" << code << "): " << description << "." << std::endl; });
+	glfwSetWindowSizeCallback(windowGLFW, [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); });
 
-	int hKeys[] = {
+	std::vector<int> hKeys = {
 		GLFW_KEY_A, GLFW_KEY_D,
 		GLFW_KEY_LEFT, GLFW_KEY_RIGHT
 	};
-	input.addAxis(Input::Axis("horizontal", hKeys, sizeof(hKeys)));
+	input.addAxis(Input::Axis("horizontal", hKeys));
 
-	int vKeys[] = {
+	std::vector<int> vKeys = {
 		GLFW_KEY_S, GLFW_KEY_W,
 		GLFW_KEY_DOWN, GLFW_KEY_UP
 	};
-	input.addAxis(Input::Axis("vertical", vKeys, sizeof(vKeys)));
+	input.addAxis(Input::Axis("vertical", vKeys));
 
 	glfwShowWindow(windowGLFW);
 	glfwSwapInterval(1);
@@ -77,50 +66,10 @@ void Window::update() {
 void Window::render() {
 	glClearColor(color[0], color[1], color[2], 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //Or bit
-}
 
-void Window::renderModel(const TexturedModel& texturedModel) {
-	glBindVertexArray(texturedModel.vaoID);
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
+	for (auto sr : SpriteRenderer::renderers) sr->render();
 
-	glActiveTexture(GL_TEXTURE0); //What texture bank.
-	glBindTexture(GL_TEXTURE_2D, texturedModel.textureID);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glDrawElements(GL_TRIANGLES, texturedModel.vertexCount, GL_UNSIGNED_INT, 0);
-
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glBindVertexArray(0);
-}
-
-void Window::setSize(const Vector2<unsigned int>& v) {
-	_size = v;
-	updateTransformation();
-}
-void Window::setSize(unsigned int x, unsigned int y) {
-	_size.x = x;
-	_size.y = y;
-	updateTransformation();
-}
-Vector2<unsigned int> Window::getSize() {
-	return _size;
-}
-
-void Window::setPosition(const Vector2<unsigned int>& v) {
-	_pos = v;
-	updateTransformation();
-}
-void Window::setPosition(unsigned int x, unsigned int y) {
-	_pos.x = x;
-	_pos.y = y;
-	updateTransformation();
-}
-Vector2<unsigned int> Window::getPosition() {
-	return _pos;
+	glfwSwapBuffers(windowGLFW);
 }
 
 void Window::setTitle(const std::string v) {
@@ -128,8 +77,4 @@ void Window::setTitle(const std::string v) {
 }
 std::string Window::getTitle() {
 	return _title;
-}
-
-inline void Window::updateTransformation() {
-	glViewport(_pos.x, _pos.y, _size.x, _size.y);
 }

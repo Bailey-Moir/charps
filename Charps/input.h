@@ -23,7 +23,7 @@ namespace Charps {
 			 * @param keys An array of all the keys that affect the axis. The items in this array should come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 * @param count The size of the previous array.
 			 */
-			Axis(const char* name, int* keys, const size_t count);
+			Axis(const char* name, std::vector<int> keys);
 
 			/**
 			 * The name of the axis.
@@ -38,7 +38,7 @@ namespace Charps {
 			 * @param input The input manager the axis is getting the inputs from.
 			 * @return The value of the axis. The value can be either -1, 0, or 1.
 			 */
-			int getValue(Input& input);
+			int getValue(Input* input);
 		};
 
 	private:

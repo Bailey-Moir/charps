@@ -15,6 +15,11 @@ namespace Charps {
 		 */
 		Vector2(const T& x, const T& y);
 		/**
+		 * Constructor where dimensions are all equal to the one input.
+		 * @param n The initial value of the dimensions.
+		 */
+		Vector2(const T& n);
+		/**
 		 * Default constructor;
 		 */
 		Vector2();
@@ -29,6 +34,9 @@ namespace Charps {
 		 */
 		double length();
 
+		/**
+		 * Casts the vector2 to another type of vector2.
+		 */
 		template<typename N>
 		Vector2<N> cast();
 
@@ -48,6 +56,12 @@ namespace Charps {
 	Vector2<T>::Vector2(const T& x, const T& y) {
 		this->x = x;
 		this->y = y;
+	}
+
+	template<typename T>
+	Vector2<T>::Vector2(const T& n) {
+		this->x = n;
+		this->y = n;
 	}
 
 	template<typename T>

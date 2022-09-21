@@ -6,8 +6,6 @@
 #include "input.h"
 
 namespace Charps {
-	class TexturedModel;
-
 	/**
 	 * Manages the game window itself.
 	 */
@@ -22,11 +20,6 @@ namespace Charps {
 		 * The private variable that is referenced by the getter and setter.
 		 */
 		std::string _title;
-
-		/**
-		 * Updates the size and the position according to _size and _pos.
-		 */
-		inline void updateTransformation();
 	public:
 		/**
 		 * The constructor for the window.
@@ -37,14 +30,14 @@ namespace Charps {
 		Window(const unsigned int width, const unsigned int height, std::string title);
 
 		/**
+		 * The monitor the window is on.
+		 */
+		GLFWmonitor* monitor;
+
+		/**
 		 * The input manager of the window.
 		 */
 		Input input;
-
-		/**
-		 * Initializes (in a non-literal sense) the window.
-		 */
-		void init();
 
 		/**
 		 * Update the window. Should run every frame.
@@ -54,11 +47,6 @@ namespace Charps {
 		 * Render to the window. Should run every frame.
 		 */
 		void render();
-
-		/**
-		 * Renders a model to the screen.
-		 */
-		void renderModel(const TexturedModel& texturedModel);
 
 		/**
 		 * The GLFW window struct.
@@ -71,32 +59,6 @@ namespace Charps {
 		float color[3] = {0, 0, 0};
 
 		// GETTERS AND SETTERS
-
-		/**
-		 * Window size setter.
-		 */
-		void setSize(const Vector2<unsigned int>& v);
-		/**
-		 * Window size setter.
-		 */
-		void setSize(unsigned int x, unsigned int y);
-		/**
-		 * Window size getter.
-		 */
-		Vector2<unsigned int> getSize();
-
-		/**
-		 * Window position setter.
-		 */
-		void setPosition(const Vector2<unsigned int>& v);
-		/**
-		 * Window position setter.
-		 */
-		void setPosition(unsigned int x, unsigned int y);
-		/**
-		 * Window position getter.
-		 */
-		Vector2<unsigned int> getPosition();
 
 		/**
 		 * Window title setter.

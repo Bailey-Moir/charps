@@ -1,17 +1,31 @@
 #include "spriterenderer.h"
 #include "GLFW.h"
 #include <iostream>
+#include "gameobject.h"
+#include "window.h"
 
 using namespace Charps;
 
-SpriteRenderer::SpriteRenderer(GameObject& gameObject) : Component(gameObject, typeid(SpriteRenderer)), shader(defaultShader) {}
+std::vector<SpriteRenderer*> SpriteRenderer::renderers = std::vector<SpriteRenderer*>();
+
+SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader& shader) : Component(gameObject, typeid(SpriteRenderer)), shader(shader) {
+	renderers.push_back(this);
+}
 
 void SpriteRenderer::render() {
+	int physicalSize, windowWidth, windowHeight;
+	glfwGetMonitorPhysicalSize(gameObject.window.monitor, &physicalSize, 0);
+	glfwGetWindowSize(gameObject.window.windowGLFW, &windowWidth, &windowHeight);
+	float size = (float) glfwGetVideoMode(gameObject.window.monitor)->width;
+
+	auto xvertices = size / physicalSize / windowWidth * 10;
+	auto yvertices = size / physicalSize / windowHeight * 10;
+
 	GLfloat const Vertices[] = {
-			-0.5f, 0.5f,
-			0.5f, 0.5f,
-			0.5f, -0.5f,
-			-0.5f, -0.5f
+		(GLfloat) (xvertices*(-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat) (xvertices*(gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat) (xvertices*(gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(-gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat) (xvertices*(-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(-gameObject.transform.size.y + gameObject.transform.position.y))
 	};
 
 	GLuint const Indicies[] = {

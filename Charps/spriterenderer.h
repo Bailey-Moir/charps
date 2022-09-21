@@ -1,20 +1,30 @@
 #pragma once
 #include "component.h"
 #include "shader.h"
+#include <vector>
 
 namespace Charps {
 	/**
 	 * The Sprite Renderer of a Game Object. Controls how the Game Object is rendered.
 	 */
-	class SpriteRenderer : public Component {
-		Shader shader;
+	struct SpriteRenderer : public Component {
+		static std::vector<SpriteRenderer*> renderers;
 
-	public:
 		/**
 		 * Constructor.
 		 * @param gameObject The parent Game Object.
 		 */
-		SpriteRenderer(GameObject& gameObject);
+		SpriteRenderer(GameObject& gameObject, Shader& shader);
+
+		/**
+		 * The shader this sprite renderer uses for rendering.
+		 */
+		Shader shader;
+
+		/**
+		 * The color to render the Game Object at.
+		 */
+		const double color[4] = { 0.8,1,1,1 };
 
 		/**
 		 * Render the object.
@@ -22,10 +32,5 @@ namespace Charps {
 		void render();
 
 		void update();
-
-		/**
-		 * The color to render the Game Object at.
-		 */
-		const double color[4] = { 0.8,1,1,1 };
 	};
 }

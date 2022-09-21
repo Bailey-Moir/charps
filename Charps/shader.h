@@ -60,6 +60,4 @@ namespace Charps {
 		 */
 		unsigned int loadShader(std::string file, unsigned int type) const;
 	};
-
-	const Shader defaultShader = Shader("mainVertex.glsl", "mainFragment.glsl");
 }
