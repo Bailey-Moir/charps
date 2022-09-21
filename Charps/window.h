@@ -4,22 +4,19 @@
 #include <iostream>
 #include "GLFW.h"
 #include "input.h"
+#include "time.h"
 
 namespace Charps {
 	/**
 	 * Manages the game window itself.
 	 */
 	class Window {
-	private:
-		/**
-		 * The private variable that is referenced by the getter and setter.
-		 */
-		Vector2<unsigned int> _size, _pos;
-		
+	private:		
 		/**
 		 * The private variable that is referenced by the getter and setter.
 		 */
 		std::string _title;
+
 	public:
 		/**
 		 * The constructor for the window.
@@ -38,6 +35,11 @@ namespace Charps {
 		 * The input manager of the window.
 		 */
 		Input input;
+
+		/**
+		 * The time manager of the window.
+		 */
+		Time time;
 
 		/**
 		 * Update the window. Should run every frame.

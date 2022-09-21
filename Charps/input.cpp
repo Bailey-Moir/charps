@@ -1,4 +1,3 @@
-#include "input.h"
 #include "window.h"
 
 using namespace Charps;
@@ -39,8 +38,7 @@ int Input::getAxisValue(std::string axis) {
 	/**
 	 * How to loop through vector???
 	 */
-	for (auto _axis = _axes.begin(); _axis != _axes.end(); ++_axis)
-	{
+	for (auto _axis = _axes.begin(); _axis != _axes.end(); ++_axis) {
 		if (axis == _axis->name) {
 			return _axis->getValue(this);
 		}

@@ -1,20 +1,17 @@
 #include "window.h"
-#include "input.h"
 #include "spriterenderer.h"
 
 using namespace Charps;
 
-Window::Window(const unsigned int width, const unsigned int height, const std::string title) : input(Input(*this)) {
-	this->_size = Vector2<unsigned int>(width, height);
+Window::Window(const unsigned int width, const unsigned int height, const std::string title) : input(Input(*this)), time(Time()) {
 	this->_title = title;
-	this->_pos = Vector2<unsigned int>();
 
 	if (!glfwInit()) exit(EXIT_FAILURE);
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
-	windowGLFW = glfwCreateWindow(640, 480, _title.c_str(), 0, 0);
+	windowGLFW = glfwCreateWindow(width, height, _title.c_str(), 0, 0);
 	if (windowGLFW == 0) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
@@ -30,9 +27,7 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 
 	const GLFWvidmode* videoMode = glfwGetVideoMode(monitor);
 	if (videoMode == 0) throw new std::exception("Failed to get video mode");
-	_pos.x = (videoMode->width - _size.x) / 2;
-	_pos.y = (videoMode->height - _size.y) / 2;
-	glfwSetWindowPos(windowGLFW, _pos.x, _pos.y);
+	glfwSetWindowPos(windowGLFW, (videoMode->width - width) / 2, (videoMode->height - height) / 2);
 	glfwMakeContextCurrent(windowGLFW);
 
 	//createCapabilities(); //Adds the ability to render to the window
@@ -60,7 +55,12 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 }
 
 void Window::update() {
+	time.update();
 	glfwPollEvents(); //Gets all the callbacks connected to the window.
+	for (auto component = Component::allComponents.begin(); component != Component::allComponents.end(); ++component) {
+		if (*component == nullptr) Component::allComponents.erase(component);
+		(*component)->update();
+	}
 }
 
 void Window::render() {

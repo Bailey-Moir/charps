@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="component.cpp" />
-    <ClCompile Include="fakemain.cpp" />
     <ClCompile Include="fileutils.cpp" />
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />

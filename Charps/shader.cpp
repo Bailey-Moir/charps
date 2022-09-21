@@ -36,6 +36,7 @@ const int Shader::getID() const {
 
 void Shader::bindAttributes() const {
     bindAttribute(0, "position");
+    bindAttribute(1, "color");
 }
 
 void Shader::bindAttribute(int attrib, const char* name) const {

@@ -8,6 +8,9 @@ namespace Charps {
 	 * The Sprite Renderer of a Game Object. Controls how the Game Object is rendered.
 	 */
 	struct SpriteRenderer : public Component {
+		/**
+		 * All the sprite renderers.
+		 */
 		static std::vector<SpriteRenderer*> renderers;
 
 		/**
@@ -19,12 +22,14 @@ namespace Charps {
 		/**
 		 * The shader this sprite renderer uses for rendering.
 		 */
-		Shader shader;
+		Shader& shader;
 
 		/**
 		 * The color to render the Game Object at.
 		 */
-		const double color[4] = { 0.8,1,1,1 };
+		float color[3] = { 1,0,0 };
+
+		inline float calculateColor(int n, double t);
 
 		/**
 		 * Render the object.

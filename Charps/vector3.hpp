@@ -39,12 +39,34 @@ namespace Charps {
 
 		// OPERATORS
 
-		Vector3 operator+(const Vector3<T>&);
+		template<typename N>
+		Vector3<T> operator+(const Vector3<N>&);
+		template<typename N>
+		Vector3<T> operator+(N n);
 		template<typename N>
 		void operator+=(const Vector3<N>&);
-		Vector3 operator-(const Vector3<T>&);
+
+		template<typename N>
+		Vector3<T> operator-(const Vector3<N>&);
+		template<typename N>
+		Vector3<T> operator-(N n);
 		template<typename N>
 		void operator-=(const Vector3<N>&);
+
+		template<typename N>
+		Vector3<T> operator*(const Vector3<N>&);
+		template<typename N>
+		Vector3<T> operator*(N n);
+		template<typename N>
+		void operator*=(const Vector3<N>&);
+
+		template<typename N>
+		Vector3<T> operator/(const Vector3<N>&);
+		template<typename N>
+		Vector3<T> operator/(N n);
+		template<typename N>
+		void operator/=(const Vector3<N>&);
+
 		template<typename N>
 		void operator=(const Vector3<N>&);
 	};
@@ -80,30 +102,70 @@ namespace Charps {
 		return Vector3<N>((N) this->x, (N) this->y, (N) this->z);
 	}
 
-	template<typename T>
-	Vector3<T> Vector3<T>::operator+(const Vector3<T>& _) {
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator+(const Vector3<N>& _) {
 		return Vector3<T>(this->x + _.x, this->y + _.y, this->z + _.z);
 	}
 	template<typename T> template<typename N>
-	void Vector3<T>::operator+=(const Vector3<N>& _) {
-		this->x += (T) _.x;
-		this->y += (T) _.y;
-		this->z += (T) _.z;
+	Vector3<T> Vector3<T>::operator+(N n) {
+		return Vector3<T>(this->x + n, this->y + n, this->z + z);
 	}
-	template<typename T>
-	Vector3<T> Vector3<T>::operator-(const Vector3<T>& _) {
+	template<typename T> template<typename N>
+	void Vector3<T>::operator+=(const Vector3<N>& _) {
+		this->x += (T)_.x;
+		this->y += (T)_.y;
+		this->z += (T)_.z;
+	}
+
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator-(const Vector3<N>& _) {
 		return Vector3<T>(this->x - _.x, this->y - _.y, this->z - _.z);
 	}
 	template<typename T> template<typename N>
-	void Vector3<T>::operator-=(const Vector3<N>& _) {
-		this->x -= (T) _.x;
-		this->y -= (T) _.y;
-		this->z -= (T) _.z;
+	Vector3<T> Vector3<T>::operator-(N n) {
+		return Vector3<T>(this->x - n, this->y - n, this->z - n);
 	}
 	template<typename T> template<typename N>
+	void Vector3<T>::operator-=(const Vector3<N>& _) {
+		this->x -= (T)_.x;
+		this->y -= (T)_.y;
+		this->z -= (T)_.z;
+	}
+
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator*(const Vector3<N>& _) {
+		return Vector3<T>(this->x * _.x, this->y * _.y, this->z * _.z);
+	}
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator*(N n) {
+		return Vector3<T>(this->x * n, this->y * n, this->z * n);
+	}
+	template<typename T> template<typename N>
+	void Vector3<T>::operator*=(const Vector3<N>& _) {
+		this->x *= (T)_.x;
+		this->y *= (T)_.y;
+		this->z *= (T)_.z
+	}
+
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator/(const Vector3<N>& _) {
+		return Vector3<T>(this->x / _.x, this->y / _.y, this->z / _.z);
+	}
+	template<typename T> template<typename N>
+	Vector3<T> Vector3<T>::operator/(N n) {
+		return Vector3<T>(this->x / n, this->y / n, this->z / n);
+	}
+	template<typename T> template<typename N>
+	void Vector3<T>::operator/=(const Vector3<N>& _) {
+		this->x /= (T)_.x;
+		this->y /= (T)_.y;
+		this->z /= (T)_.z
+	}
+
+	template<typename T> template<typename N>
 	void Vector3<T>::operator=(const Vector3<N>& _) {
-		this->x = (T) _.x;
-		this->y = (T) _.y;
-		this->z = (T) _.z;
+		this->x = (T)_.x;
+		this->y = (T)_.y;
+		this->z = (T)_.z;
 	}
 }

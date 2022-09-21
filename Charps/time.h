@@ -11,16 +11,16 @@ namespace Charps {
 		/**
 		 * The last time the update function was called.
 		 */
-		static double lastTime;
+		double lastTime = 0;
 	public:
 		/**
 		 * The time in seconds since the last frame.
 		 */
-		static double deltaTime;
+		double deltaTime = 0;
 
 		/**
 		 * Updates the delta time variable. To be run every frame.
 		 */
-		static void update();
+		void update();
 	};
 }

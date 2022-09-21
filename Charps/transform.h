@@ -14,6 +14,12 @@ namespace Charps {
 		Transform(GameObject& gameObject);
 
 		Vector2<double> position, size/*, rotation*/;
+		
+		/**
+		 * Moves the object delta units per second.
+		 * @param delta The amount the object moves per second.
+		 */
+		void translate(Vector2<double> delta);
 
 		void update();
 	};

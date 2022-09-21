@@ -16,16 +16,16 @@ void SpriteRenderer::render() {
 	int physicalSize, windowWidth, windowHeight;
 	glfwGetMonitorPhysicalSize(gameObject.window.monitor, &physicalSize, 0);
 	glfwGetWindowSize(gameObject.window.windowGLFW, &windowWidth, &windowHeight);
-	float size = (float) glfwGetVideoMode(gameObject.window.monitor)->width;
+	float size = (float)glfwGetVideoMode(gameObject.window.monitor)->width;
 
 	auto xvertices = size / physicalSize / windowWidth * 10;
 	auto yvertices = size / physicalSize / windowHeight * 10;
 
 	GLfloat const Vertices[] = {
-		(GLfloat) (xvertices*(-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat) (xvertices*(gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat) (xvertices*(gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(-gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat) (xvertices*(-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat) (yvertices*(-gameObject.transform.size.y + gameObject.transform.position.y))
+		(GLfloat)(xvertices * (-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y + gameObject.transform.position.y))
 	};
 
 	GLuint const Indicies[] = {
@@ -37,14 +37,26 @@ void SpriteRenderer::render() {
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 
-	GLuint VBO;
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	GLuint verticesVBO;
+	glGenBuffers(1, &verticesVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-	
-	GLint PositionAttribute = glGetAttribLocation(shader.getID(), "position");
-	glVertexAttribPointer(PositionAttribute, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	auto verticesLocation = glGetAttribLocation(shader.getID(), "position");
+	glVertexAttribPointer(verticesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+	GLuint colorVBO;
+	glGenBuffers(1, &colorVBO);
+	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
+	float usedColor[] = {
+		color[0], color[1], color[2],
+		color[0], color[1], color[2],
+		color[0], color[1], color[2],
+		color[0], color[1], color[2]
+	};
+	glBufferData(GL_ARRAY_BUFFER, sizeof(usedColor), usedColor, GL_STATIC_DRAW);
+	auto colorLocation = glGetAttribLocation(shader.getID(), "color");
+	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	GLuint EBO;
@@ -56,14 +68,38 @@ void SpriteRenderer::render() {
 
 	glBindVertexArray(VAO);
 
-	glEnableVertexAttribArray(PositionAttribute);	
+	glEnableVertexAttribArray(colorLocation);
+	glEnableVertexAttribArray(verticesLocation);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-	glDisableVertexAttribArray(PositionAttribute);
+	glDisableVertexAttribArray(verticesLocation);
+	glDisableVertexAttribArray(colorLocation);
 
 	glDeleteBuffers(1, &EBO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &verticesVBO);
+	glDeleteBuffers(1, &colorVBO);
 	glDeleteVertexArrays(1, &VAO);
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::update() {}
+void SpriteRenderer::update() {
+	auto time = fmod(glfwGetTime() * 50, 150);
+	color[0] = 1 - calculateColor(25, time);
+	color[1] = calculateColor(0, time);
+	color[2] = calculateColor(50, time);
+}
+
+inline float SpriteRenderer::calculateColor(int n, double t) {
+	return (float)(t <= n ?
+		0.0f :
+		(t <= 25.0f + n ?
+			(t - n) / 25.0f :
+			(t <= 75.0f + n ?
+				1.0f :
+				(t <= 100.0f + n ?
+					4 + (n - t)/25.0f :
+					0.0f
+					)
+				)
+			)
+		);
+}
