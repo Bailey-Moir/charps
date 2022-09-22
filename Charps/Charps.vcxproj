@@ -24,6 +24,7 @@
     <ClCompile Include="gameobject.cpp" />
     <ClCompile Include="input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="rigidbody.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="spriterenderer.cpp" />
     <ClCompile Include="texturemodel.cpp" />
@@ -37,6 +38,7 @@
     <ClInclude Include="gameobject.h" />
     <ClInclude Include="GLFW.h" />
     <ClInclude Include="input.h" />
+    <ClInclude Include="rigidbody.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="spriterenderer.h" />
     <ClInclude Include="texturemodel.h" />

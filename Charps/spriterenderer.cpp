@@ -18,14 +18,14 @@ void SpriteRenderer::render() {
 	glfwGetWindowSize(gameObject.window.windowGLFW, &windowWidth, &windowHeight);
 	float size = (float)glfwGetVideoMode(gameObject.window.monitor)->width;
 
-	auto xvertices = size / physicalSize / windowWidth * 10;
-	auto yvertices = size / physicalSize / windowHeight * 10;
+	auto xvertices = size / physicalSize / windowWidth * 20;
+	auto yvertices = size / physicalSize / windowHeight * 20;
 
 	GLfloat const Vertices[] = {
-		(GLfloat)(xvertices * (-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (-gameObject.transform.size.x + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y + gameObject.transform.position.y))
+		(GLfloat)(xvertices * (-gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y/2 + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y/2 + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y/2 + gameObject.transform.position.y)),
+		(GLfloat)(xvertices * (-gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y/2 + gameObject.transform.position.y))
 	};
 
 	GLuint const Indicies[] = {
