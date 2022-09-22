@@ -16,7 +16,6 @@ namespace Charps {
 		/**
 		 * Constructor.
 		 * @param gameObject The parent Game Object.
-		 * @param shader The shader used to render the Game Object.
 		 */
 		SpriteRenderer(GameObject& gameObject, Shader& shader);
 

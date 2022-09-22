@@ -60,9 +60,6 @@
     <ClCompile Include="component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="rigidbody.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="shader.h">
@@ -104,9 +101,6 @@
       <Filter>Header Files\objects</Filter>
     </ClInclude>
     <ClInclude Include="component.h">
-      <Filter>Header Files\objects</Filter>
-    </ClInclude>
-    <ClInclude Include="rigidbody.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>
   </ItemGroup>
