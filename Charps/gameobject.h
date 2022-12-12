@@ -19,10 +19,10 @@ namespace Charps {
 
 	public:
 		/**
-		 * Constructor.
-		 * @paran window The window the Game Object is rendered on.
+		 * Creates a GameObject on the current window context.
+		 * @param window The window the Game Object is rendered on.
 		 */
-		GameObject(Window& window);
+		GameObject();
 
 		/**
 		 * The window the Game Object is rendered on.

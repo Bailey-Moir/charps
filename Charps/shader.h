@@ -34,12 +34,13 @@ namespace Charps {
 
 		/**
 		 * Starts using the shader.
+		 * @TODO Making this inline makes it an unresolved external symbol.
 		 */
 		void start() const;
 		/**
 		 * Stops using the shader.
 		 */
-		void stop() const;
+		inline void stop() const;
 
 		const int getID() const;
 	protected:
@@ -51,7 +52,7 @@ namespace Charps {
 		/**
 		 * Binds a shader layout attribute.
 		 */
-		void bindAttribute(int attrib, const char* name) const;
+		inline void bindAttribute(int attrib, const char* name) const;
 		/**
 		 * Creates a shader from a file.
 		 * @param file The location of the shader file.

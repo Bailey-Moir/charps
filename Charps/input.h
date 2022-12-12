@@ -20,17 +20,17 @@ namespace Charps {
 			/**
 			 * Constructor
 			 * @param name The name of the axis, e.g. 'horizontal'
-			 * @param keys An array of all the keys that affect the axis. The items in this array should come in pairs such that the first affects the axis positively and the second affects the array negatively.
+			 * @param keys An vector of all the keys that affect the axis. The items in this vector should come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 * @param count The size of the previous array.
 			 */
-			Axis(const char* name, std::vector<int> keys);
+			Axis(const char* name, std::vector<int>& keys);
 
 			/**
 			 * The name of the axis.
 			 */
 			const char* name;
 			/**
-			 * An array of all the keys that affect the axis. The items in this array come in pairs such that the first affects the axis positively and the second affects the array negatively.
+			 * An vector of all the keys that affect the axis. The items in this vector come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 */
 			std::vector<int> keys;
 
@@ -38,15 +38,10 @@ namespace Charps {
 			 * @param input The input manager the axis is getting the inputs from.
 			 * @return The value of the axis. The value can be either -1, 0, or 1.
 			 */
-			int getValue(Input* input);
+			int getValue(const Input* input) const;
 		};
 
 	private:
-		/**
-		 * The mouse position as of last getting checked. [This variable is useless, can I do anything to remove it]
-		 */
-		Vector2<double> _mousePos = Vector2<double>();
-
 		/**
 		 * All of the input axes that have been created.
 		 */
@@ -68,26 +63,33 @@ namespace Charps {
 		 * @param key The key to check against.
 		 * @return Whether the given key is currently down.
 		 */
-		bool keyDown(int key);
+		bool keyDown(const int key) const;
 		/**
 		 * @param button The button to check against.
 		 * @return Whether the given button is currently down.
 		 */
-		bool buttonDown(int button);
+		bool buttonDown(const int button) const;
 		/**
 		 * @return The current position of the mouse.
 		 */
-		Vector2<double> mousePos();
+		Vector2<double> mousePos() const;
 
 		/**
 		 * @param axis The name of the axis to get the value of.
 		 * @return The value of the given axis.
 		 */
-		int getAxisValue(std::string axis);
+		int getAxisValue(const std::string axis) const;
+		
 		/**
 		 * Adds an axis to the input manager.
 		 * @param axis The axis to add to the list of axes.
 		 */
 		void addAxis(const Axis& axis);
+		/**
+		 * Creates an axis for the input manager.
+		 * @param name The name of the new axis to add to the list of axes.
+		 * @param keys A vector of all the keys that affect the axis. The items in this vector should come in pairs such that the first affects the axis positively and the second affects the array negatively.
+		 */
+		void addAxis(const char* name, std::vector<int>& keys);
 	};
 }

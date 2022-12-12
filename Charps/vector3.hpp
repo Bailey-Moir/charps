@@ -32,38 +32,38 @@ namespace Charps {
 		/**
 		 * Gets the total lenght of the vector using pythagoras.
 		 */
-		double length();
+		double length() const;
 		
 		template<typename N>
-		Vector3<N> cast();
+		Vector3<N> cast() const;
 
 		// OPERATORS
 
 		template<typename N>
-		Vector3<T> operator+(const Vector3<N>&);
+		Vector3<T> operator+(const Vector3<N>&) const;
 		template<typename N>
-		Vector3<T> operator+(N n);
+		Vector3<T> operator+(N n) const;
 		template<typename N>
 		void operator+=(const Vector3<N>&);
 
 		template<typename N>
-		Vector3<T> operator-(const Vector3<N>&);
+		Vector3<T> operator-(const Vector3<N>&) const;
 		template<typename N>
-		Vector3<T> operator-(N n);
+		Vector3<T> operator-(N n) const;
 		template<typename N>
 		void operator-=(const Vector3<N>&);
 
 		template<typename N>
-		Vector3<T> operator*(const Vector3<N>&);
+		Vector3<T> operator*(const Vector3<N>&) const;
 		template<typename N>
-		Vector3<T> operator*(N n);
+		Vector3<T> operator*(N n) const;
 		template<typename N>
 		void operator*=(const Vector3<N>&);
 
 		template<typename N>
-		Vector3<T> operator/(const Vector3<N>&);
+		Vector3<T> operator/(const Vector3<N>&) const;
 		template<typename N>
-		Vector3<T> operator/(N n);
+		Vector3<T> operator/(N n) const;
 		template<typename N>
 		void operator/=(const Vector3<N>&);
 
@@ -93,21 +93,21 @@ namespace Charps {
 	}
 
 	template<typename T>
-	double Vector3<T>::length() {
+	double Vector3<T>::length() const {
 		return sqrt(x * x + y * y + z * z);
 	};
 
 	template<typename T> template<typename N>
-	Vector3<N> Vector3<T>::cast() {
+	Vector3<N> Vector3<T>::cast() const {
 		return Vector3<N>((N) this->x, (N) this->y, (N) this->z);
 	}
 
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator+(const Vector3<N>& _) {
+	Vector3<T> Vector3<T>::operator+(const Vector3<N>& _) const {
 		return Vector3<T>(this->x + _.x, this->y + _.y, this->z + _.z);
 	}
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator+(N n) {
+	Vector3<T> Vector3<T>::operator+(N n) const {
 		return Vector3<T>(this->x + n, this->y + n, this->z + z);
 	}
 	template<typename T> template<typename N>
@@ -118,11 +118,11 @@ namespace Charps {
 	}
 
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator-(const Vector3<N>& _) {
+	Vector3<T> Vector3<T>::operator-(const Vector3<N>& _) const {
 		return Vector3<T>(this->x - _.x, this->y - _.y, this->z - _.z);
 	}
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator-(N n) {
+	Vector3<T> Vector3<T>::operator-(N n) const {
 		return Vector3<T>(this->x - n, this->y - n, this->z - n);
 	}
 	template<typename T> template<typename N>
@@ -133,11 +133,11 @@ namespace Charps {
 	}
 
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator*(const Vector3<N>& _) {
+	Vector3<T> Vector3<T>::operator*(const Vector3<N>& _) const {
 		return Vector3<T>(this->x * _.x, this->y * _.y, this->z * _.z);
 	}
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator*(N n) {
+	Vector3<T> Vector3<T>::operator*(N n) const {
 		return Vector3<T>(this->x * n, this->y * n, this->z * n);
 	}
 	template<typename T> template<typename N>
@@ -148,11 +148,11 @@ namespace Charps {
 	}
 
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator/(const Vector3<N>& _) {
+	Vector3<T> Vector3<T>::operator/(const Vector3<N>& _) const {
 		return Vector3<T>(this->x / _.x, this->y / _.y, this->z / _.z);
 	}
 	template<typename T> template<typename N>
-	Vector3<T> Vector3<T>::operator/(N n) {
+	Vector3<T> Vector3<T>::operator/(N n) const {
 		return Vector3<T>(this->x / n, this->y / n, this->z / n);
 	}
 	template<typename T> template<typename N>

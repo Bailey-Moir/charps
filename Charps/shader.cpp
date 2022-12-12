@@ -26,7 +26,7 @@ void Shader::start() const {
     glUseProgram(id);
 }
 
-void Shader::stop() const {
+inline void Shader::stop() const {
     glUseProgram(0);
 }
 
@@ -39,7 +39,7 @@ void Shader::bindAttributes() const {
     bindAttribute(1, "color");
 }
 
-void Shader::bindAttribute(int attrib, const char* name) const {
+inline void Shader::bindAttribute(int attrib, const char* name) const {
     glBindAttribLocation(id, attrib, name);
 }
 
@@ -48,8 +48,6 @@ unsigned int Shader::loadShader(std::string file, unsigned int type) const {
 
     std::string shaderStr = FileUtils::readFile(file.c_str());
     const char* shaderSrc = shaderStr.c_str();
-
-    int result = 0;
 
     glShaderSource(shaderID, 1, &shaderSrc, NULL);
     glCompileShader(shaderID);

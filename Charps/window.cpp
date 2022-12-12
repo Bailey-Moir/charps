@@ -3,16 +3,19 @@
 
 using namespace Charps;
 
+Window* Window::context = NULL;
+
 Window::Window(const unsigned int width, const unsigned int height, const std::string title) : input(Input(*this)), time(Time()) {
 	this->_title = title;
 
+	glfwSetErrorCallback([](int code, const char* desc) { printf("ERROR(%d): %s\n", code, desc); });
 	if (!glfwInit()) exit(EXIT_FAILURE);
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 
 	windowGLFW = glfwCreateWindow(width, height, _title.c_str(), 0, 0);
-	if (windowGLFW == 0) {
+	if (!windowGLFW) {
 		glfwTerminate();
 		exit(EXIT_FAILURE);
 	}
@@ -20,38 +23,40 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 	monitor = glfwGetPrimaryMonitor();
 
 	GLint err = glewInit();
-	if (err != 0) {
-		printf("ERROR: %s", glewGetErrorString(err));
+	if (err) {
+		printf("ERROR(%d): %s\n", err, glewGetErrorString(err));
 		throw std::exception("Unable to initialize GLEW");
 	}
 
 	const GLFWvidmode* videoMode = glfwGetVideoMode(monitor);
 	if (videoMode == 0) throw new std::exception("Failed to get video mode");
 	glfwSetWindowPos(windowGLFW, (videoMode->width - width) / 2, (videoMode->height - height) / 2);
-	glfwMakeContextCurrent(windowGLFW);
 
 	//createCapabilities(); //Adds the ability to render to the window
 	glEnable(GL_DEPTH_TEST);
 
 	//glfwSetWindowUserPointer(windowGLFW, this);
 
-	glfwSetErrorCallback([](int code, const char* description) { std::cout << "ERROR(" << code << "): " << description << "." << std::endl; });
 	glfwSetWindowSizeCallback(windowGLFW, [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); });
 
+	// default axis
 	std::vector<int> hKeys = {
 		GLFW_KEY_A, GLFW_KEY_D,
 		GLFW_KEY_LEFT, GLFW_KEY_RIGHT
 	};
-	input.addAxis(Input::Axis("horizontal", hKeys));
+	input.addAxis("horizontal", hKeys);
 
 	std::vector<int> vKeys = {
 		GLFW_KEY_S, GLFW_KEY_W,
 		GLFW_KEY_DOWN, GLFW_KEY_UP
 	};
-	input.addAxis(Input::Axis("vertical", vKeys));
+	input.addAxis("vertical", vKeys);
 
 	glfwShowWindow(windowGLFW);
 	glfwSwapInterval(1);
+	//glfwSwapInterval(1);
+
+	context = this;
 }
 
 void Window::update() {
@@ -59,7 +64,7 @@ void Window::update() {
 	glfwPollEvents(); //Gets all the callbacks connected to the window.
 	for (auto component = Component::allComponents.begin(); component != Component::allComponents.end(); ++component) {
 		if (*component == nullptr) Component::allComponents.erase(component);
-		(*component)->update();
+		else (*component)->update();
 	}
 }
 
@@ -72,9 +77,11 @@ void Window::render() {
 	glfwSwapBuffers(windowGLFW);
 }
 
-void Window::setTitle(const std::string v) {
+void Window::setTitle(const char* v) {
 	_title = v;
+	glfwSetWindowTitle(windowGLFW, v);
 }
-std::string Window::getTitle() {
+
+std::string Window::getTitle() const {
 	return _title;
 }

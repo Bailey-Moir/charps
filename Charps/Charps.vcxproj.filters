@@ -45,9 +45,6 @@
     <ClCompile Include="shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="texturemodel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gameobject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -91,9 +88,6 @@
     </ClInclude>
     <ClInclude Include="mainFragment.glsl" />
     <ClInclude Include="mainVertex.glsl" />
-    <ClInclude Include="texturemodel.h">
-      <Filter>Header Files\graphics</Filter>
-    </ClInclude>
     <ClInclude Include="gameobject.h">
       <Filter>Header Files\objects</Filter>
     </ClInclude>

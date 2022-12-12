@@ -6,6 +6,5 @@ using namespace Charps;
 void Time::update() {
 	double time = glfwGetTime();
 	deltaTime = time - lastTime;
-
-	lastTime = glfwGetTime();
+	lastTime = time;
 }

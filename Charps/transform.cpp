@@ -7,7 +7,7 @@ Transform::Transform(GameObject& gameObject) : Component(gameObject, typeid(Tran
 	size = Vector2<double>(1);
 }
 
-void Transform::translate(Vector2<double> delta) {
+void Transform::translate(const Vector2<double> delta) {
 	position += delta * gameObject.window.time.deltaTime;
 }
 

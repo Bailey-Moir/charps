@@ -6,67 +6,78 @@
 
 using namespace Charps;
 
+const int SpriteRenderer::_indicies[6] = {
+	0, 1, 3,
+	3, 1, 2
+};
+
 std::vector<SpriteRenderer*> SpriteRenderer::renderers = std::vector<SpriteRenderer*>();
 
-SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader& shader) : Component(gameObject, typeid(SpriteRenderer)), shader(shader) {
+SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader* shader) : Component(gameObject, typeid(SpriteRenderer)) {
 	renderers.push_back(this);
+	this->shader = shader;
+
+	glGenVertexArrays(1, &_VAO);
+	glBindVertexArray(_VAO);
+	glGenBuffers(1, &_verticesVBO);
+	glGenBuffers(1, &_colorVBO);
+	glGenBuffers(1, &_EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(_indicies), _indicies, GL_STATIC_DRAW);
+	glBindVertexArray(0);
+}
+
+SpriteRenderer::~SpriteRenderer() {
+	glBindVertexArray(_VAO);
+	glDeleteBuffers(1, &_EBO);
+	glDeleteBuffers(1, &_verticesVBO);
+	glDeleteBuffers(1, &_colorVBO);
+	glDeleteVertexArrays(1, &_VAO);
+	glBindVertexArray(0);
 }
 
 void SpriteRenderer::render() {
 	int physicalSize, windowWidth, windowHeight;
 	glfwGetMonitorPhysicalSize(gameObject.window.monitor, &physicalSize, 0);
 	glfwGetWindowSize(gameObject.window.windowGLFW, &windowWidth, &windowHeight);
-	float size = (float)glfwGetVideoMode(gameObject.window.monitor)->width;
+	float size = (float) glfwGetVideoMode(gameObject.window.monitor)->width;
 
-	auto xvertices = size / physicalSize / windowWidth * 20;
-	auto yvertices = size / physicalSize / windowHeight * 20;
+	const float Kx = size / physicalSize / windowWidth * 20,
+				Ky = size / physicalSize / windowHeight * 20;
 
-	GLfloat const Vertices[] = {
-		(GLfloat)(xvertices * (-gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y/2 + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (gameObject.transform.size.y/2 + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y/2 + gameObject.transform.position.y)),
-		(GLfloat)(xvertices * (-gameObject.transform.size.x/2 + gameObject.transform.position.x)), (GLfloat)(yvertices * (-gameObject.transform.size.y/2 + gameObject.transform.position.y))
+	#define POS gameObject.transform.position
+	#define SIZE gameObject.transform.size
+
+	std::array<float, 8> vertices = {
+		(float)(Kx * (POS.x - SIZE.x / 2)), (float)(Ky * (POS.y + SIZE.y / 2)),
+		(float)(Kx * (POS.x + SIZE.x / 2)), (float)(Ky * (POS.y + SIZE.y / 2)),
+		(float)(Kx * (POS.x + SIZE.x / 2)), (float)(Ky * (POS.y - SIZE.y / 2)),
+		(float)(Kx * (POS.x - SIZE.x / 2)), (float)(Ky * (POS.y - SIZE.y / 2))
 	};
 
-	GLuint const Indicies[] = {
-		0, 1, 3,
-		3, 1, 2
-	};
+	GLuint verticesLocation = glGetAttribLocation(shader->getID(), "position");
+	GLuint colorLocation = glGetAttribLocation(shader->getID(), "color");
 
-	GLuint VAO;
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	glBindVertexArray(_VAO);
 
-	GLuint verticesVBO;
-	glGenBuffers(1, &verticesVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, verticesVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-	auto verticesLocation = glGetAttribLocation(shader.getID(), "position");
-	glVertexAttribPointer(verticesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	if (vertices != _lastVertices) {
+		glBindBuffer(GL_ARRAY_BUFFER, _verticesVBO);
+		glBufferData(GL_ARRAY_BUFFER, 8*sizeof(float), vertices.data(), GL_STATIC_DRAW);
+		glVertexAttribPointer(verticesLocation, 2, GL_FLOAT, GL_FALSE, 0, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		_lastVertices = vertices;
+	}
 
-	GLuint colorVBO;
-	glGenBuffers(1, &colorVBO);
-	glBindBuffer(GL_ARRAY_BUFFER, colorVBO);
-	float usedColor[] = {
-		color[0], color[1], color[2],
-		color[0], color[1], color[2],
-		color[0], color[1], color[2],
-		color[0], color[1], color[2]
-	};
-	glBufferData(GL_ARRAY_BUFFER, sizeof(usedColor), usedColor, GL_STATIC_DRAW);
-	auto colorLocation = glGetAttribLocation(shader.getID(), "color");
-	glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	if (_colorChanged) {
+		float usedColor[12];
+		for (int i = 0; i < 12; i++) usedColor[i] = _color[i % 3];
 
-	GLuint EBO;
-	glGenBuffers(1, &EBO);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indicies), Indicies, GL_STATIC_DRAW);
-
-	glBindVertexArray(0);
-
-	glBindVertexArray(VAO);
+		glBindBuffer(GL_ARRAY_BUFFER, _colorVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(usedColor), usedColor, GL_STATIC_DRAW);
+		glVertexAttribPointer(colorLocation, 3, GL_FLOAT, GL_FALSE, 0, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		_colorChanged = false;
+	}
 
 	glEnableVertexAttribArray(colorLocation);
 	glEnableVertexAttribArray(verticesLocation);
@@ -74,21 +85,12 @@ void SpriteRenderer::render() {
 	glDisableVertexAttribArray(verticesLocation);
 	glDisableVertexAttribArray(colorLocation);
 
-	glDeleteBuffers(1, &EBO);
-	glDeleteBuffers(1, &verticesVBO);
-	glDeleteBuffers(1, &colorVBO);
-	glDeleteVertexArrays(1, &VAO);
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::update() {
-	auto time = fmod(glfwGetTime() * 50, 150);
-	color[0] = 1 - calculateColor(25, time);
-	color[1] = calculateColor(0, time);
-	color[2] = calculateColor(50, time);
-}
+void SpriteRenderer::update() {}
 
-inline float SpriteRenderer::calculateColor(int n, double t) {
+inline float SpriteRenderer::calculateColor(int n, double t) const {
 	return (float)(t <= n ?
 		0.0f :
 		(t <= 25.0f + n ?
@@ -102,4 +104,16 @@ inline float SpriteRenderer::calculateColor(int n, double t) {
 				)
 			)
 		);
+}
+
+void SpriteRenderer::getColor(float* r, float* g, float* b) const {
+	*r = _color[0];
+	*g = _color[1];
+	*b = _color[2];
+}
+void SpriteRenderer::setColor(const float r, const float g, const float b) {
+	_color[0] = r;
+	_color[1] = g;
+	_color[2] = b;
+	_colorChanged = true;
 }

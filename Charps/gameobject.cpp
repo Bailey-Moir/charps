@@ -3,7 +3,7 @@
 
 using namespace Charps;
 
-GameObject::GameObject(Window& window) : transform(*this), window(window) {}
+GameObject::GameObject() : transform(*this), window(*Window::context) {}
 
 void GameObject::addComponent(Component* component) {
 	components.push_back(component);

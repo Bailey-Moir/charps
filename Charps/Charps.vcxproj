@@ -27,7 +27,6 @@
     <ClCompile Include="rigidbody.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="spriterenderer.cpp" />
-    <ClCompile Include="texturemodel.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="window.cpp" />
@@ -41,7 +40,6 @@
     <ClInclude Include="rigidbody.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="spriterenderer.h" />
-    <ClInclude Include="texturemodel.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="window.h" />
