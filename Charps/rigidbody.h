@@ -14,7 +14,7 @@ namespace Charps {
 		 */
 		RigidBody(GameObject& gameObject, double mass);
 
-		Vector2<double> editingForce, velocity;
+		Vector2<double> force, velocity;
 		double mass, gravity = -9.81;
 
 		void update();

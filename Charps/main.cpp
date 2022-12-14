@@ -15,6 +15,7 @@ int main() {
 	GameObject player;
 	SpriteRenderer sr(player, &shader);
 	RigidBody rb(player, 1);
+	rb.gravity = 0;
 
 	GameObject obj;
 	SpriteRenderer obj_sr(obj, &shader);
@@ -31,9 +32,9 @@ int main() {
 		sprintf_s(title, "Game: %.2f FPS", 1/window.time.deltaTime);
 		window.setTitle(title);
 
-		rb.editingForce = Vector2<double>(window.input.getAxisValue("horizontal"), window.input.getAxisValue("vertical"));
+		rb.force = Vector2<double>(window.input.getAxisValue("horizontal"), window.input.getAxisValue("vertical"));
 		if (window.input.keyDown(GLFW_KEY_ESCAPE)) {
-			rb.editingForce = Vector2<double>(0);
+			rb.force = Vector2<double>(0);	
 			rb.velocity = Vector2<double>(0);
 			player.transform.position = Vector2<double>(0);
 		}

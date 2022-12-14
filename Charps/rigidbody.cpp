@@ -10,8 +10,17 @@ RigidBody::RigidBody(GameObject& gameObject, double mass) : Component(gameObject
 }
 
 void RigidBody::update() {
-	auto drag = velocity*velocity*0.645*gameObject.transform.size.x*1;
+	#define dt (gameObject.window.time.deltaTime)
+	#define f (force)
+	#define m (mass)
+	#define v (velocity)
+	#define g (gravity)
+	#define pos (gameObject.transform.position)
 
-	velocity += (editingForce + drag + Vector2<double>(0, gravity)) * gameObject.window.time.deltaTime / mass;
-	gameObject.transform.translate(velocity*4);
+	if (g) f.y += m * g;
+
+	v += f/m * dt;
+	pos += v * dt;
+
+	f = Vector2<double>(0);
 }
