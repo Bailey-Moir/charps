@@ -4,7 +4,7 @@
 
 namespace Charps {
 	/**
-	 * The Transform of a Game Object. Controls position, size, and rotation.
+	 * The Transform of a Game Object. Controls position, size, and rotation. This is a special type of component because it is in the GameObject class by default.
 	 */
 	struct Transform : public Component {
 		/**

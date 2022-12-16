@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="circlecollider.cpp" />
+    <ClCompile Include="collider.cpp" />
     <ClCompile Include="component.cpp" />
     <ClCompile Include="fileutils.cpp" />
     <ClCompile Include="gameobject.cpp" />
@@ -27,11 +29,14 @@
     <ClCompile Include="rigidbody.cpp" />
     <ClCompile Include="shader.cpp" />
     <ClCompile Include="spriterenderer.cpp" />
+    <ClCompile Include="squarecollider.cpp" />
     <ClCompile Include="time.cpp" />
     <ClCompile Include="transform.cpp" />
     <ClCompile Include="window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="circlecollider.h" />
+    <ClInclude Include="collider.h" />
     <ClInclude Include="component.h" />
     <ClInclude Include="fileutils.h" />
     <ClInclude Include="gameobject.h" />
@@ -40,6 +45,7 @@
     <ClInclude Include="rigidbody.h" />
     <ClInclude Include="shader.h" />
     <ClInclude Include="spriterenderer.h" />
+    <ClInclude Include="squarecollider.h" />
     <ClInclude Include="time.h" />
     <ClInclude Include="transform.h" />
     <ClInclude Include="window.h" />

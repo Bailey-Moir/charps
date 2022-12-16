@@ -25,6 +25,9 @@
     <Filter Include="Header Files\objects">
       <UniqueIdentifier>{b143186d-51e1-4134-8059-50188c8fa539}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\objects\collider">
+      <UniqueIdentifier>{fd1104d9-9346-4239-9c91-f8ea2755acbb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +61,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="rigidbody.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="circlecollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="collider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="squarecollider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -102,6 +114,15 @@
     </ClInclude>
     <ClInclude Include="rigidbody.h">
       <Filter>Header Files\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="circlecollider.h">
+      <Filter>Header Files\objects\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="collider.h">
+      <Filter>Header Files\objects\collider</Filter>
+    </ClInclude>
+    <ClInclude Include="squarecollider.h">
+      <Filter>Header Files\objects\collider</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
