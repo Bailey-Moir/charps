@@ -8,5 +8,9 @@ Component::Component(GameObject& gameObject, const std::type_info& id) : gameObj
 	gameObject.addComponent(this);
 	allComponents.push_back(this);
 }
+Component::~Component() {
+	gameObject.removeComponent(this);
+	remove(allComponents.begin(), allComponents.end(), this);
+}
 
 void Component::update() {}

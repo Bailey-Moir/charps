@@ -45,6 +45,7 @@ namespace Charps {
 		 * 
 		 */
 		void addComponent(Component* component);
+		void removeComponent(Component* component);
 	};
 
 	template<typename T>

@@ -28,6 +28,8 @@ SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader* shader) : Compone
 }
 
 SpriteRenderer::~SpriteRenderer() {
+	remove(renderers.begin(), renderers.end(), this);
+
 	glBindVertexArray(_VAO);
 	glDeleteBuffers(1, &_EBO);
 	glDeleteBuffers(1, &_verticesVBO);
@@ -88,7 +90,14 @@ void SpriteRenderer::render() {
 	glBindVertexArray(0);
 }
 
-void SpriteRenderer::update() {}
+void SpriteRenderer::update() {
+	/*auto time = fmod(glfwGetTime() * 50, 150);
+	setColor(
+		1 - calculateColor(25, time),
+		calculateColor(0, time),
+		calculateColor(50, time)
+	);*/
+}
 
 inline float SpriteRenderer::calculateColor(int n, double t) const {
 	return (float)(t <= n ?

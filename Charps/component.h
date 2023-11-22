@@ -17,6 +17,7 @@ namespace Charps {
 		 * @param gameObject The parent Game Object.
 		 */
 		Component(GameObject& gameObject, const std::type_info& id);
+		~Component();
 
 		/**
 		 * The parent Game Object.
