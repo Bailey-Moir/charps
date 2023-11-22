@@ -2,6 +2,8 @@
 #include "vector2.hpp"
 #include "component.h"
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * The Transform of a Game Object. Controls position, size, and rotation.

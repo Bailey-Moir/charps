@@ -3,19 +3,20 @@
 #include <iostream>
 
 using namespace Charps;
+using namespace std;
 
-std::string FileUtils::readFile(const char* filePath) {
-    std::string content;
-    std::ifstream fileStream(filePath, std::ios::in);
+string FileUtils::readFile(const char* filePath) {
+    string content;
+    ifstream fileStream(filePath, ios::in);
 
     if (!fileStream.is_open()) {
-        std::cerr << "Could not read file " << filePath << ". File does not exist." << std::endl;
+        cerr << "Could not read file " << filePath << ". File does not exist." << endl;
         return "";
     }
 
-    std::string line = "";
+    string line = "";
     while (!fileStream.eof()) {
-        std::getline(fileStream, line);
+        getline(fileStream, line);
         content.append(line + "\n");
     }
 

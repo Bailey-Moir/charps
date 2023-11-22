@@ -3,6 +3,9 @@
 #include "transform.h"
 #include <typeinfo>
 #include <vector>
+#include <memory>
+
+using namespace std;
 
 namespace Charps {
 	class Window;
@@ -15,7 +18,7 @@ namespace Charps {
 		/**
 		 * All the components on the Game Object
 		 */
-		std::vector<Component*> components = std::vector<Component*>();
+		vector<Component*> components = vector<Component*>();
 
 	public:
 		/**

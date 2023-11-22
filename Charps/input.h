@@ -4,6 +4,8 @@
 #include "GLFW.h"
 #include "vector2.hpp"
 
+using namespace std;
+
 namespace Charps {
 	// Forward declration
 	class Window;
@@ -23,7 +25,7 @@ namespace Charps {
 			 * @param keys An vector of all the keys that affect the axis. The items in this vector should come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 * @param count The size of the previous array.
 			 */
-			Axis(const char* name, std::vector<int>& keys);
+			Axis(const char* name, vector<int>& keys);
 
 			/**
 			 * The name of the axis.
@@ -32,7 +34,7 @@ namespace Charps {
 			/**
 			 * An vector of all the keys that affect the axis. The items in this vector come in pairs such that the first affects the axis positively and the second affects the array negatively.
 			 */
-			std::vector<int> keys;
+			vector<int> keys;
 
 			/**
 			 * @param input The input manager the axis is getting the inputs from.
@@ -45,7 +47,7 @@ namespace Charps {
 		/**
 		 * All of the input axes that have been created.
 		 */
-		std::vector<Axis> _axes = std::vector<Axis>();
+		vector<Axis> _axes = vector<Axis>();
 
 		/**
 		 * The parent window.
@@ -78,7 +80,7 @@ namespace Charps {
 		 * @param axis The name of the axis to get the value of.
 		 * @return The value of the given axis.
 		 */
-		int getAxisValue(const std::string axis) const;
+		int getAxisValue(const string axis) const;
 		
 		/**
 		 * Adds an axis to the input manager.
@@ -90,6 +92,6 @@ namespace Charps {
 		 * @param name The name of the new axis to add to the list of axes.
 		 * @param keys A vector of all the keys that affect the axis. The items in this vector should come in pairs such that the first affects the axis positively and the second affects the array negatively.
 		 */
-		void addAxis(const char* name, std::vector<int>& keys);
+		void addAxis(const char* name, vector<int>& keys);
 	};
 }

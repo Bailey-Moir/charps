@@ -4,6 +4,7 @@
 #include "GLFW.h"
 
 using namespace Charps;
+using namespace std;
 
 RigidBody::RigidBody(GameObject& gameObject, double mass) : Component(gameObject, typeid(RigidBody)) {
 	this->mass = mass;

@@ -1,8 +1,9 @@
 #include "window.h"
 
 using namespace Charps;
+using namespace std;
 
-Input::Axis::Axis(const char* name, std::vector<int>& keys) {
+Input::Axis::Axis(const char* name, vector<int>& keys) {
 	this->keys = keys;
 	this->name = name;
 
@@ -35,7 +36,7 @@ Vector2<double> Input::mousePos() const {
 	return pos;
 }
 
-int Input::getAxisValue(const std::string axis) const {
+int Input::getAxisValue(const string axis) const {
 	for (auto _axis = _axes.begin(); _axis != _axes.end(); ++_axis) {
 		if (axis == _axis->name) {
 			return _axis->getValue(this);
@@ -48,6 +49,6 @@ void Input::addAxis(const Axis& axis) {
 	_axes.push_back(axis);
 }
 
-void Input::addAxis(const char* name, std::vector<int>& keys) {
+void Input::addAxis(const char* name, vector<int>& keys) {
 	_axes.push_back(Axis(name, keys));
 }

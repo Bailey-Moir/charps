@@ -4,6 +4,7 @@
 #include "fileutils.h"
 
 using namespace Charps;
+using namespace std;
 
 Shader::Shader(const char* vertexFile, const char* fragmentFile) : vertexID(loadShader(vertexFile, GL_VERTEX_SHADER)), fragmentID(loadShader(fragmentFile, GL_FRAGMENT_SHADER)), id(glCreateProgram()) {
 	glAttachShader(id, vertexID);
@@ -43,10 +44,10 @@ inline void Shader::bindAttribute(int attrib, const char* name) const {
     glBindAttribLocation(id, attrib, name);
 }
 
-unsigned int Shader::loadShader(std::string file, unsigned int type) const {
+unsigned int Shader::loadShader(string file, unsigned int type) const {
     int shaderID = glCreateShader(type);
 
-    std::string shaderStr = FileUtils::readFile(file.c_str());
+    string shaderStr = FileUtils::readFile(file.c_str());
     const char* shaderSrc = shaderStr.c_str();
 
     glShaderSource(shaderID, 1, &shaderSrc, NULL);
@@ -54,7 +55,7 @@ unsigned int Shader::loadShader(std::string file, unsigned int type) const {
     
     GLint compileStatus;
     glGetShaderiv(shaderID, GL_COMPILE_STATUS, &compileStatus);
-    if (!compileStatus) std::cerr << "ERROR: Could not compile shader \'" << file << "\'! " << std::endl;
+    if (!compileStatus) cerr << "ERROR: Could not compile shader \'" << file << "\'! " << endl;
 
     return shaderID;
 }

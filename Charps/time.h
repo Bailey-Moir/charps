@@ -2,6 +2,8 @@
 #include <chrono>
 #include <ctime>
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * Manages time in the game.

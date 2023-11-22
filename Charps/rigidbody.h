@@ -2,6 +2,8 @@
 #include "component.h"
 #include "vector2.hpp"
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * The Rigidbody of a Game Object. Manages its phyiscs: forces, momentum, gravity, etc.

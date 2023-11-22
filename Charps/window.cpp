@@ -2,10 +2,11 @@
 #include "spriterenderer.h"
 
 using namespace Charps;
+using namespace std;
 
 Window* Window::context = NULL;
 
-Window::Window(const unsigned int width, const unsigned int height, const std::string title) : input(Input(*this)), time(Time()) {
+Window::Window(const unsigned int width, const unsigned int height, const string title) : input(Input(*this)), time(Time()) {
 	this->_title = title;
 
 	glfwSetErrorCallback([](int code, const char* desc) { printf("ERROR(%d): %s\n", code, desc); });
@@ -25,11 +26,11 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 	GLint err = glewInit();
 	if (err) {
 		printf("ERROR(%d): %s\n", err, glewGetErrorString(err));
-		throw std::exception("Unable to initialize GLEW");
+		throw exception("Unable to initialize GLEW");
 	}
 
 	const GLFWvidmode* videoMode = glfwGetVideoMode(monitor);
-	if (videoMode == 0) throw new std::exception("Failed to get video mode");
+	if (videoMode == 0) throw new exception("Failed to get video mode");
 	glfwSetWindowPos(windowGLFW, (videoMode->width - width) / 2, (videoMode->height - height) / 2);
 
 	//createCapabilities(); //Adds the ability to render to the window
@@ -40,13 +41,13 @@ Window::Window(const unsigned int width, const unsigned int height, const std::s
 	glfwSetWindowSizeCallback(windowGLFW, [](GLFWwindow* window, int width, int height) { glViewport(0, 0, width, height); });
 
 	// default axis
-	std::vector<int> hKeys = {
+	vector<int> hKeys = {
 		GLFW_KEY_A, GLFW_KEY_D,
 		GLFW_KEY_LEFT, GLFW_KEY_RIGHT
 	};
 	input.addAxis("horizontal", hKeys);
 
-	std::vector<int> vKeys = {
+	vector<int> vKeys = {
 		GLFW_KEY_S, GLFW_KEY_W,
 		GLFW_KEY_DOWN, GLFW_KEY_UP
 	};
@@ -82,6 +83,6 @@ void Window::setTitle(const char* v) {
 	glfwSetWindowTitle(windowGLFW, v);
 }
 
-std::string Window::getTitle() const {
+string Window::getTitle() const {
 	return _title;
 }

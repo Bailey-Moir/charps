@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+using namespace std;
+
 namespace Charps {
     /**
      * File utilitises.
@@ -10,7 +12,7 @@ namespace Charps {
          * Reads the text from a file.
          * @param filePath the path of the file.
          */
-        static std::string readFile(const char* filePath);
+        static string readFile(const char* filePath);
     };
 }
 

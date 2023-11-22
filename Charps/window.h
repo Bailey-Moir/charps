@@ -5,6 +5,8 @@
 #include "input.h"
 #include "time.h"
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * Manages the game window itself.
@@ -14,7 +16,7 @@ namespace Charps {
 		/**
 		 * The private variable that is referenced by the getter and setter.
 		 */
-		std::string _title;
+		string _title;
 
 	public:
 		/**
@@ -28,7 +30,7 @@ namespace Charps {
 		 * @param height The height of the new window.
 		 * @param title The title of the window.
 		 */
-		Window(const unsigned int width, const unsigned int height, std::string title);
+		Window(const unsigned int width, const unsigned int height, string title);
 
 		/**
 		 * The monitor the window is on.
@@ -73,6 +75,6 @@ namespace Charps {
 		/**
 		 * Window title getter.
 		 */
-		std::string getTitle() const;
+		string getTitle() const;
 	};
 }

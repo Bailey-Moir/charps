@@ -1,6 +1,8 @@
 #pragma once
 #include <string>
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * General shader class.
@@ -59,6 +61,6 @@ namespace Charps {
 		 * @param type The type of shader, e.g. GL_FRAGMENT_SHADER.
 		 * @return the GL ID of the shader.
 		 */
-		unsigned int loadShader(std::string file, unsigned int type) const;
+		unsigned int loadShader(string file, unsigned int type) const;
 	};
 }

@@ -5,13 +5,14 @@
 #include "window.h"
 
 using namespace Charps;
+using namespace std;
 
 const int SpriteRenderer::_indicies[6] = {
 	0, 1, 3,
 	3, 1, 2
 };
 
-std::vector<SpriteRenderer*> SpriteRenderer::renderers = std::vector<SpriteRenderer*>();
+vector<SpriteRenderer*> SpriteRenderer::renderers = vector<SpriteRenderer*>();
 
 SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader* shader) : Component(gameObject, typeid(SpriteRenderer)) {
 	renderers.push_back(this);
@@ -28,7 +29,8 @@ SpriteRenderer::SpriteRenderer(GameObject& gameObject, Shader* shader) : Compone
 }
 
 SpriteRenderer::~SpriteRenderer() {
-	remove(renderers.begin(), renderers.end(), this);
+	auto end = renderers.end();
+	renderers.erase(remove(renderers.begin(), end, this), end);
 
 	glBindVertexArray(_VAO);
 	glDeleteBuffers(1, &_EBO);
@@ -50,7 +52,7 @@ void SpriteRenderer::render() {
 	#define POS gameObject.transform.position
 	#define SIZE gameObject.transform.size
 
-	std::array<float, 8> vertices = {
+	array<float, 8> vertices = {
 		(float)(Kx * (POS.x - SIZE.x / 2)), (float)(Ky * (POS.y + SIZE.y / 2)),
 		(float)(Kx * (POS.x + SIZE.x / 2)), (float)(Ky * (POS.y + SIZE.y / 2)),
 		(float)(Kx * (POS.x + SIZE.x / 2)), (float)(Ky * (POS.y - SIZE.y / 2)),

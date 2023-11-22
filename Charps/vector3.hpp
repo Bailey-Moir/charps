@@ -1,6 +1,8 @@
 #pragma once
 #include <math.h>
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * A vector (in a mathematical and physical sense) with 3 dimensions.

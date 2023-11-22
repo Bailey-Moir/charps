@@ -2,6 +2,8 @@
 #include <math.h>
 #include <iostream>
 
+using namespace std;
+
 namespace Charps {
 	/**
 	 * A vector (in a mathematical and physical sense) with 2 dimensions.

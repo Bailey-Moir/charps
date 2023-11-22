@@ -2,6 +2,8 @@
 #include <typeinfo>
 #include <vector>
 
+using namespace std;
+
 namespace Charps {
 	class GameObject;
 
@@ -10,13 +12,13 @@ namespace Charps {
 		/**
 		 * All the components in the game;
 		 */
-		static std::vector<Component*> allComponents;
+		static vector<Component*> allComponents;
 
 		/**
 		 * Constructor.
 		 * @param gameObject The parent Game Object.
 		 */
-		Component(GameObject& gameObject, const std::type_info& id);
+		Component(GameObject& gameObject, const type_info& id);
 		~Component();
 
 		/**
@@ -32,6 +34,6 @@ namespace Charps {
 		/**
 		 * The type of the component derived class.
 		 */
-		const std::type_info& id;
+		const type_info& id;
 	};
 }

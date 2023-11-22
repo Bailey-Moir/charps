@@ -5,6 +5,7 @@
 #include "rigidbody.h"
 
 using namespace Charps;
+using namespace std;
 
 int main() {
 	Window window(1000, 750, "");

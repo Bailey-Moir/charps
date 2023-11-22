@@ -4,6 +4,8 @@
 #include <vector>
 #include <array>
 
+using namespace std;
+
 namespace Charps {
 
 	/**
@@ -23,7 +25,7 @@ namespace Charps {
 		 */
 		float _color[3] = { 1,0,0 };
 
-		std::array<float, 8> _lastVertices = {
+		array<float, 8> _lastVertices = {
 			0,0,
 			0,0,
 			0,0,
@@ -34,7 +36,7 @@ namespace Charps {
 		/**
 		 * All the sprite renderers.
 		 */
-		static std::vector<SpriteRenderer*> renderers;
+		static vector<SpriteRenderer*> renderers;
 
 		/**
 		 * Constructor.

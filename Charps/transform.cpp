@@ -2,6 +2,7 @@
 #include "window.h"
 
 using namespace Charps;
+using namespace std;
 
 Transform::Transform(GameObject& gameObject) : Component(gameObject, typeid(Transform)) {
 	size = Vector2<double>(1);
